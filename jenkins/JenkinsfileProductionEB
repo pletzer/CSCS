@@ -61,7 +61,7 @@ stage('Build Stage') {
                                                echo $machinePrefixLocal""").trim()
                     def unuseOption = unusePath ? "--unuse=$unusePath".replace('ARCH', arch) : "--unuse="
                     def ebForceListLocal = ebForceList
-                    def forceOption = machineLabel in machineConfigurations ? "--force=$ebForceListLocal" : ""
+                    def forceOption = machineLabel in machineConfigurations ? "--force=\"$ebForceListLocal\"" : ""
                     def moduleUnuse = machineModulesUnuseProduction ? "module unuse $machineModulesUnuseProduction".replace('ARCH', arch) : ""
                     def moduleUse = machineModulesProduction ? "module  use $machineModulesProduction".replace('ARCH', arch) : ""
                     def archOption = arch ? "--arch=$arch" : ""
@@ -77,7 +77,13 @@ stage('Build Stage') {
                               echo \$MODULEPATH | tr : '\n' | sort
                               echo 'Running...'
                               echo $command
-                              $command""")
+                              $command
+                              status=\$[status+\$?]
+                              if [ -d \"\$EASYBUILD_TMPDIR\" ]; then
+                               chmod -R o+r \$EASYBUILD_TMPDIR
+                               find \$EASYBUILD_TMPDIR -type d -exec chmod o+x '{}' \\;
+                              fi
+                              exit \$status""")
                     }
                 }
             }
