@@ -35,7 +35,7 @@ set eb_config_dir          /apps/common/UES/jenkins/production/easybuild
 # EB_CUSTOM_REPOSITORY
 # the following variables should depend on it
 #
-# XDG_CONFIG_HOME
+# XDG_CONFIG_DIRS
 # EASYBUILD_ROBOT_PATHS
 # EASYBUILD_INCLUDE_EASYBLOCKS
 # EASYBUILD_EXTERNAL_MODULES_METADATA (if on cray)
@@ -43,6 +43,7 @@ set eb_config_dir          /apps/common/UES/jenkins/production/easybuild
 if { ! [ info exists ::env(EB_CUSTOM_REPOSITORY) ] } {
     setenv EB_CUSTOM_REPOSITORY $eb_config_dir
 }
+setenv XDG_CONFIG_DIRS                          $::env(EB_CUSTOM_REPOSITORY)
 setenv EASYBUILD_ROBOT_PATHS                    $::env(EB_CUSTOM_REPOSITORY)/easyconfigs/:
 setenv EASYBUILD_INCLUDE_EASYBLOCKS             $::env(EB_CUSTOM_REPOSITORY)/easyblocks/*.py
 setenv EASYBUILD_EXTERNAL_MODULES_METADATA      $::env(EB_CUSTOM_REPOSITORY)/cray_external_modules_metadata.cfg
@@ -76,6 +77,7 @@ if { [ string match *daint* $system ] || [ string match *dom* $system ] } {
 } elseif { [ string match *esch* $system ] } {
     setenv EASYBUILD_MODULE_NAMING_SCHEME       LowercaseModuleNamingScheme
 } elseif { [ string match *arolla* $system ] || [ string match *tsa* $system ] } {
+    setenv EASYBUILD_MODULES_TOOL               EnvironmentModules
     setenv EASYBUILD_MODULE_NAMING_SCHEME       LowercaseModuleNamingScheme
 } elseif { [ string match *fulen* $system ] } {
     setenv XDG_RUNTIME_DIR                      /dev/shm/$::env(USER)
