@@ -22,7 +22,7 @@ dependencies = [
     ('libffi', '3.2.1', '', True),
     ('PyExtensions', '%s' % pyver),
     ('IPython', '7.7.0', '-python%s' % py_maj_ver),
-    ('julia/1.0.4', EXTERNAL_MODULE),
+    ('julia','1.0.4', '', True),
     ('configurable-http-proxy', '3.1.1'),
     ('dask', '2.2.0', '-python%s' % py_maj_ver),
 ]
@@ -492,7 +492,10 @@ full_sanity_check = True
 # For Julia packages needed for Jupyter
 julia_depot_path = "%(installdir)s/share/julia/site/"
 
-modextrapaths = {'PYTHONPATH': ['lib/python%s/site-packages' % pyshortver]}
+modextrapaths = {
+    'PYTHONPATH': ['lib/python%s/site-packages' % pyshortver],
+    'JUPYTER_PATH': 'share/jupyter',
+}
 
 modextravars = {
     'JUPYTERLAB_DIR': "%(installdir)s/share/jupyter/lab/",
